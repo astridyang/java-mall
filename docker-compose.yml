@@ -1,0 +1,70 @@
+version: "3"
+
+services:
+  glmGateway:
+    image: glm_gateway:1.0
+    container_name: glm_gateway
+    ports:
+      - "88:88"
+    volumes:
+      - /gulimallData/glm_gateway:/data
+    networks:
+      - alna_net
+
+  renrenFast:
+    image: renren_fast:1.0
+    container_name: renren_fast
+    ports:
+      - "8080:8080"
+    volumes:
+      - /gulimallData/renren_fast:/data
+    networks:
+      - alna_net
+    depends_on:
+      - redis
+      - mysql
+
+  minioClient:
+    image: minio_client:1.0
+    container_name: minio_client
+    ports:
+      - "12000:12000"
+    volumes:
+      - /gulimallData/minio_client:/data
+    networks:
+      - alna_net
+
+  redis:
+    image: redis:6.0.8
+    container_name: glm_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - /gulimallData/redis/conf/redis.conf:/etc/redis/redis.conf
+      - /gulimallData/redis/data:/data
+    restart: always
+    networks:
+      - alna_net
+    command: redis-server /etc/redis/redis.conf
+
+  mysql:
+    image: mysql:5.7
+    container_name: glm_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'abc123'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
+      MYSQL_USER: "glm"
+      MYSQL_PASSWORD: "glm22."
+    ports:
+      - "3306:3306"
+    volumes:
+      - /gulimallData/mysql/db:/var/lib/mysql
+      - /gulimallData/mysql/conf/my.cnf:/etc/my.cnf
+      - /gulimallData/mysql/init:/docker-entrypoint-initdb.d
+    networks:
+      - alna_net
+    command: --default-authentication-plugin=mysql_native_password #解决外部无法访问
+
+networks:
+  alna_net:

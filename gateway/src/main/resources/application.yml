@@ -1,0 +1,85 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: tw_route
+          uri: https://www.baidu.com
+          predicates:
+            - Query=url, tw
+
+        - id: upload_route
+          uri: lb://glm-third-party
+          predicates:
+            - Path=/api/file/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+        - id: product_route
+          uri: lb://glm-product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+        - id: coupon_route
+          uri: lb://glm-coupon
+          predicates:
+            - Path=/api/coupon/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+        - id: member_route
+          uri: lb://glm-member
+          predicates:
+            - Path=/api/member/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+        - id: ware_route
+          uri: lb://glm-ware
+          predicates:
+            - Path=/api/ware/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+        - id: admin_route
+          uri: lb://renren-fast
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
+
+        - id: glm_host_route
+          uri: lb://glm-product
+          predicates:
+            - Host=gmall.com,item.gmall.com
+
+        - id: glm_search_route
+          uri: lb://glm-search
+          predicates:
+            - Host=search.gmall.com
+
+        - id: glm_auth_route
+          uri: lb://glm-auth-server
+          predicates:
+            - Host=auth.gmall.com
+
+        - id: glm_cart_route
+          uri: lb://glm-cart
+          predicates:
+            - Host=cart.gmall.com
+
+        - id: glm_order_route
+          uri: lb://glm-order
+          predicates:
+            - Host=order.gmall.com
+
+        - id: glm_member_route
+          uri: lb://glm-member
+          predicates:
+            - Host=member.gmall.com
+
+        - id: glm_seckill_route
+          uri: lb://glm-seckill
+          predicates:
+            - Host=seckill.gmall.com

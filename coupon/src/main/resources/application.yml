@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    username: root
+    password: abc123
+    url: jdbc:mysql://192.168.62.31:3306/glm_sms
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://192.168.62.31:8848
+  application:
+    name: glm-coupon
+
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+
+server:
+  port: 7000

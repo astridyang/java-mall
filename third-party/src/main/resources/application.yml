@@ -1,0 +1,23 @@
+minio:
+  # 访问的url
+  endpoint: http://192.168.62.31:9010
+  # API的端口
+  port: 9010
+  # 秘钥
+  accessKey: 30QQUZ7EGJTJNU9WCA53
+  secretKey: eEaeAez7OZ2qKUaJb0T+LrZYrzYTq4+gweQDlJoP
+  fileHost: http://192.168.62.31:9011
+  secure: false
+  bucket-name: glmall # 桶名
+  image-size: 2MB # 图片文件的最大大小
+  file-size: 2MB # 此处是设定了文件的最大大小
+server:
+  port: 12000
+
+spring:
+  application:
+    name: glm-third-party
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://192.168.62.31:8848
